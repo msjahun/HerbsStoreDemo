@@ -1,5 +1,3 @@
-using System;
-
 namespace HerbsStore.Models
 {
     public class ErrorViewModel

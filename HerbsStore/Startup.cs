@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HerbsStore.Libraries.HS.Core.Domain.Users;
 using HerbsStore.Libraries.HS.Data;
 using HerbsStore.Libraries.HS.Data.Repository;
+using HerbsStore.Libraries.HS.Services.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace HerbsStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<IPermissionService, PermissionService> ();
             //Add identity
             services.AddIdentity<User, UserRole>()
                 .AddEntityFrameworkStores<Context>()
@@ -80,7 +81,8 @@ namespace HerbsStore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            // identity middleware
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

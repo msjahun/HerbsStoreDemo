@@ -1,4 +1,4 @@
-﻿
+﻿@model RegisterVm
 @{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,35 +10,35 @@
     <h3>Sign In & Sign Up</h3>
     <div class="w3_login_module">
         <div class="module form-module">
-            <div >
-            
+            <div>
+
             </div>
-         
+
             <div class="form">
                 <h2>Create an account</h2>
-                <form action="#" method="post">
-                    <input type="text" name="Username" placeholder="Username" required=" ">
-                    <input type="password" name="Password" placeholder="Password" required=" ">
-                    <input type="email" name="Email" placeholder="Email Address" required=" ">
-                    <input type="text" name="Phone" placeholder="Phone Number" required=" ">
-                    <input type="submit" value="Register">
+                <div style="color:red; margin:10px" asp-validation-summary="All"></div>
+                <form asp-controller="Authentication" asp-action="Register" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" asp-for="FirstName" placeholder="First Name" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="LastName" placeholder="Last Name" required="">
+                        </div>
+                    </div>
+                    <input type="email" asp-for="EmailAddress" placeholder="Email Address" required="">
+                    <input type="password" asp-for="Password" placeholder="Password" required="">
+                    <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" required="">
+                    <input type="text" asp-for="Address" placeholder="Home Address" required="">
+                    <input type="text" asp-for="PhoneNumber" placeholder="Phone Number" required="">
+                    <input type="checkbox" asp-for="AgreeToTermsAndConditions">
+                    <p style="display: inline;">Accept Terms & Conditions</p>
+                    <input type="submit" style="margin-top:20px;" value="Register">
                 </form>
             </div>
-            
+
         </div>
     </div>
-    <script>
-        $('.toggle').click(function(){
-            // Switches the Icon
-            $(this).children('i').toggleClass('fa-pencil');
-            // Switches the forms
-            $('.form').animate({
-                height: "toggle",
-                'padding-top': 'toggle',
-                'padding-bottom': 'toggle',
-                opacity: "toggle"
-            }, "slow");
-        });
-    </script>
+
 </div>
 <!-- //login -->
