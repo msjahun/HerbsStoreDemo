@@ -1,4 +1,4 @@
-﻿
+﻿@model  List<HerbsStore.Libraries.HS.Services.HospitalServices.HospitalCrudVm>
 @{
     ViewData["Title"] = "Hospitals";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +9,7 @@
     <h2 class="typoh2">List of Hospitals</h2>
     <br/>
     <div class="pull-right">
-        <button class="btn btn-primary">Add New</button>
+        <a asp-controller="Administration" asp-action="HospitalAdd" class="btn btn-primary">Add New</a>
     </div>
     <div class="bs-docs-example">
         <table class="table table-striped">
@@ -24,28 +24,25 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Abc Hospital</td>
-                <td>Magusa, salamis</td>
-                <td>Well known for heart Surgery</td>
-                <td>Cold</td>
-                <td><button class="btn btn-primary">Edit</button> 
-                    <button class="btn btn-danger">Delete</button>
-                </td>
-            </tr>     
             
+            @foreach (var item in Model)
+            {
+
+          
             <tr>
-                <td>2</td>
-                <td>Abc Hospital</td>
-                <td>Magusa, salamis</td>
-                <td>Well known for heart Surgery</td>
-                <td>Cold</td>
-                <td><button class="btn btn-primary">Edit</button> 
-                    <button class="btn btn-danger">Delete</button>
+                <td>@item.Id</td>
+                <td><img src="@item.ImageUrl" width="30" height="30"/></td>
+                <td>@item.HospitalName</td>
+                <td>@item.HospitalAddress</td>
+                <td>@item.Description</td>
+                <td>@item.DiseaseName</td>
+                <td><a asp-controller="Administration" asp-action="HospitalEdit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Administration" asp-action="DeleteHospital" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 </td>
-            </tr>    
-        
+            </tr>
+
+            }
+
             </tbody>
         </table>
     </div>

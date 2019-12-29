@@ -7,5 +7,6 @@ namespace HerbsStore.Libraries.HS.Services.ImageServices
         string UploadProductImage();
         string ImageSplitter(string imageUrl, string imagePostfix);
         List<string> ImageSplitterList(List<string> imageUrls, string imagePostfix);
+        string UploadHospitalImage();
     }
 }

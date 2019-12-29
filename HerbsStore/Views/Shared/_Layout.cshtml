@@ -39,8 +39,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         });
     </script>
     <!-- start-smoth-scrolling -->
-    
+
     <style>
+        html, body {
+            height: 100%
+        }
 
         .form-group {
             margin-top: 20px;
@@ -54,7 +57,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="w3l_offers">
             <a href="/">Herbs store</a>
         </div>
-  
+
         <div class="pull-right">
 
             <secure-content>
@@ -88,7 +91,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
 
         <div class="w3l_header_right1">
-            
+
         </div>
         <div class="clearfix"> </div>
     </div>
@@ -107,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
-<!-- //script-for sticky-nav -->
+    <!-- //script-for sticky-nav -->
 
     <div class="logo_products">
         <div class="container">
@@ -123,19 +126,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <secure-admin>
                         <li><i>/</i><a class="text-danger" asp-controller="Administration" asp-action="Products">Manage Products</a><i>/</i></li>
                         <li><a class="text-danger" asp-controller="Administration" asp-action="Orders">Manage Orders</a><i>/</i></li>
-                        <li><a class="text-danger" asp-controller="Administration" asp-action="Hospitals">Manage Hospitals</a></li>
+                        <li><a class="text-danger" asp-controller="Administration" asp-action="Hospitals">Manage Hospitals</a><i>/</i></li>
+                        <li><a class="text-danger" asp-controller="Administration" asp-action="Feedbacks">Manage Feedback</a></li>
                     </secure-admin>
                 </ul>
             </div>
-          
+
             <div class="clearfix"> </div>
         </div>
     </div>
     <!-- //header -->
-   
-@RenderBody()
+
+    @RenderBody()
 
 
+    <!-- //newsletter -->
     <!-- Bootstrap Core JavaScript -->
     <script src="~/js/bootstrap.min.js"></script>
     <script>
@@ -192,6 +197,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     </script>
 </body>
+<div class="clearfix"> </div>
+
+<!-- newsletter -->
+<div class="newsletter " style="background-color: #84C639">
+    <div class="container">
+        <div class="w3agile_newsletter_left">
+            <h3>Copyright © Herb Store 2019-2020 </h3> <a style="color: white; display:inline" asp-controller="Feedback" asp-action="Index">Leave Feedback</a>
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+</div>
 </html>
 
 

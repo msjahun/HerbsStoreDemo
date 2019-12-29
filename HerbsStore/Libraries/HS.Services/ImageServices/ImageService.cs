@@ -47,10 +47,20 @@ namespace HerbsStore.Libraries.HS.Services.ImageServices
         }
 
 
+        public string UploadHospitalImage()
+        {
+
+            var imagePath = UploadImage("Files/Images/Hospitals/");
+            if (imagePath == null || imagePath.Length <= 0) return null;
+            //map the image to room and catalogImage in the database
+            //insert it in CatalogImage, get id then
+            //insert foreignkeys in RoomCatalog image
+
+            return "/" + imagePath;
+        }
 
 
 
-     
 
 
 
@@ -142,13 +152,7 @@ namespace HerbsStore.Libraries.HS.Services.ImageServices
             return convertedStrings;
         }
 
-  
-
-
-
-
-
-
+    
     }
 
 

@@ -86,7 +86,7 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
 
             _productsRepo.Update(product);
 
-            return false;
+            return true;
         }
 
         public void DeleteProduct(long productId)

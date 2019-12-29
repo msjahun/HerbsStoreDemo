@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HerbsStore.Libraries.HS.Services.HospitalServices;
 using HerbsStore.Libraries.HS.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,13 @@ namespace HerbsStore.Controllers
     public class AdministrationController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IHospitalService _hospitalService;
 
-        public AdministrationController(IProductService productService)
+        public AdministrationController(IProductService productService,
+            IHospitalService hospitalService)
         {
             _productService = productService;
+            _hospitalService = hospitalService;
 
         }
         public IActionResult Products()
@@ -92,9 +96,76 @@ namespace HerbsStore.Controllers
 
         public IActionResult Hospitals()
         {
+            var model = _hospitalService.GetHospitals();
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult HospitalAdd()
+        {
+          
             return View();
         }
 
+        [HttpPost]
+        public IActionResult HospitalAdd(HospitalCrudVm vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+
+            //its valid, send to productService return Id, passId to Edit
+            var hospitalId = _hospitalService.HospitalAdd(vm);
+            return RedirectToAction("HospitalEdit", "Administration", new { @id = hospitalId});
      
+        }
+
+        [HttpGet]
+        public IActionResult HospitalEdit(long id)
+        {
+
+            var model = _hospitalService.GetHospitalById(id);
+            if (model == null)
+                return RedirectToAction("Hospitals", "Administration");
+            return View(model);
+           
+        }
+
+
+        [HttpPost]
+        public IActionResult HospitalEdit(HospitalCrudVm vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+
+            //its valid, send to productService return Id, passId to Edit
+            var success = _hospitalService.HospitalUpdate(vm);
+            return RedirectToAction("HospitalEdit", "Administration", new { @id = vm.Id });
+        }
+
+        public IActionResult DeleteHospital(long id)
+        {
+            //delete and redirect to Hospitals
+
+            _hospitalService.DeleteHospital(id);
+
+            return RedirectToAction("Hospitals");
+
+        }
+
+        public IActionResult Feedbacks()
+        {
+            return View();
+        }
+
+        public IActionResult DeleteFeedback(long id)
+        {
+            //delete and redirect to Feedbacks
+            throw new NotImplementedException();
+        }
+
+
     }
 }
