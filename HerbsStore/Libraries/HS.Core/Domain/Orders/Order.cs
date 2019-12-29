@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HerbsStore.Libraries.HS.Core.Domain.Products;
+using HerbsStore.Libraries.HS.Core.Domain.Users;
 
 namespace HerbsStore.Libraries.HS.Core.Domain.Orders
 {
@@ -18,6 +19,7 @@ namespace HerbsStore.Libraries.HS.Core.Domain.Orders
         public ICollection<Product> Products{ get; set; }
 
         public string UserId { get; set; }
+        public User User { get; set; }
         public string Address { get; set; }
         public DateTime CreatedOn { get; set; }
         public int OrderStatus { get; set; }

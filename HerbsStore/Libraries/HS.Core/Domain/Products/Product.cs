@@ -16,7 +16,7 @@ namespace HerbsStore.Libraries.HS.Core.Domain.Products
         public string Description { get; set; }
         public string Feature { get; set; }
         public string PrimaryCare { get; set; }
-        public string SecoundaryCare { get; set; }
+        public string SecondaryCare { get; set; }
         public string ImageUrl { get; set; }
         public DateTime CreatedOn { get; set; }
 
