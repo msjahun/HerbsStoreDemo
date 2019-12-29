@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using HerbsStore.Libraries.HS.Core.Domain.Users;
 using HerbsStore.Libraries.HS.Data;
 using HerbsStore.Libraries.HS.Data.Repository;
+using HerbsStore.Libraries.HS.Services.DropdownServices;
+using HerbsStore.Libraries.HS.Services.ImageServices;
+using HerbsStore.Libraries.HS.Services.ProductServices;
 using HerbsStore.Libraries.HS.Services.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,7 +52,9 @@ namespace HerbsStore
 
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
+            services.AddScoped<IImageService, ImageService > ();
+            services.AddScoped<IProductService, ProductService > ();
+            services.AddScoped<IDropdownService, DropdownService> ();
 
 
             var connectionString = Configuration.GetValue<string>("DbSettings:SqlConnectionString");

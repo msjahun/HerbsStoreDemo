@@ -1,4 +1,6 @@
 ﻿
+@using Microsoft.AspNetCore.Razor.Hosting
+@model List<HerbsStore.Libraries.HS.Services.ProductServices.ProductCrudVm>
 @{
     ViewData["Title"] = "Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,13 +11,14 @@
         <h2 class="typoh2">List of products</h2>
         <br/>
         <div class="pull-right">
-            <button class="btn btn-primary">Add New</button>
+            <a asp-controller="Administration" asp-action="ProductAdd" class="btn btn-primary">Add New</a>
         </div>
         <div class="bs-docs-example">
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Image</th>
                         <th>Product Name</th>
                         <th>Product Type</th>
                         <th>Cost</th>
@@ -25,28 +28,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mango</td>
-                        <td>Fruit</td>
-                        <td>TL 150.00</td>
-                        <td>Mango is commonly eaten as a fresh fruit</td>
-                        <td>Mango trees are easy to maintain</td>
-                        <td><button class="btn btn-primary">Edit</button> 
-                            <button class="btn btn-danger">Delete</button>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td><img src="@item.ImageUrl" height="30" width="30"/></td>
+                            <td>@item.ProductName</td>
+                            <td>@_dropdown.ResolveDropdown(item.ProductType, _dropdown.ProductsTypes())</td>
+                            <td>TL @item.Price</td>
+                            <td>@item.ProductDescription</td>
+                            <td>@item.ProductFeature</td>
+                            <td>
+                                <a asp-controller="Administration" asp-action="ProductEdit" asp-route-Id="@item.Id" class="btn btn-primary">Edit</a>
+                                <a asp-controller="Administration" asp-action="DeleteProduct" asp-route-Id="@item.Id" class="btn btn-danger">Delete</a>
                             </td>
-                    </tr>         <tr>
-                        <td>1</td>
-                        <td>Apply</td>
-                        <td>Fruit</td>
-                        <td>TL 150.00</td>
-                        <td>Mango is commonly eaten as a fresh fruit</td>
-                        <td>Mango trees are easy to maintain</td>
-                        <td><button class="btn btn-primary">Edit</button> 
-                            <button class="btn btn-danger">Delete</button>
-                            </td>
-                    </tr>
-                 
+                        </tr>
+
+                    }
+
+
                 </tbody>
             </table>
         </div>
