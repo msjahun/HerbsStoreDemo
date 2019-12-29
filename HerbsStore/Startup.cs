@@ -6,6 +6,7 @@ using HerbsStore.Libraries.HS.Core.Domain.Users;
 using HerbsStore.Libraries.HS.Data;
 using HerbsStore.Libraries.HS.Data.Repository;
 using HerbsStore.Libraries.HS.Services.DropdownServices;
+using HerbsStore.Libraries.HS.Services.FeedbackServices;
 using HerbsStore.Libraries.HS.Services.HospitalServices;
 using HerbsStore.Libraries.HS.Services.ImageServices;
 using HerbsStore.Libraries.HS.Services.ProductServices;
@@ -57,6 +58,7 @@ namespace HerbsStore
             services.AddScoped<IProductService, ProductService > ();
             services.AddScoped<IDropdownService, DropdownService> ();
             services.AddScoped< IHospitalService,HospitalService > ();
+            services.AddScoped< IFeedbackService, FeedbackService > ();
 
 
             var connectionString = Configuration.GetValue<string>("DbSettings:SqlConnectionString");

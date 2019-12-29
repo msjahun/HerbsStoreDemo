@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HerbsStore.Libraries.HS.Services.FeedbackServices;
 using HerbsStore.Libraries.HS.Services.HospitalServices;
 using HerbsStore.Libraries.HS.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,15 @@ namespace HerbsStore.Controllers
     {
         private readonly IProductService _productService;
         private readonly IHospitalService _hospitalService;
+        private readonly IFeedbackService _feedbackService;
 
         public AdministrationController(IProductService productService,
-            IHospitalService hospitalService)
+            IHospitalService hospitalService,
+            IFeedbackService feedbackService)
         {
             _productService = productService;
             _hospitalService = hospitalService;
+            _feedbackService = feedbackService;
 
         }
         public IActionResult Products()
@@ -157,13 +161,17 @@ namespace HerbsStore.Controllers
 
         public IActionResult Feedbacks()
         {
-            return View();
+            var model = _feedbackService.GetFeedBack();
+            return View(model);
         }
 
         public IActionResult DeleteFeedback(long id)
         {
             //delete and redirect to Feedbacks
-            throw new NotImplementedException();
+
+            _feedbackService.DeleteFeedBack(id);
+
+            return RedirectToAction("Feedbacks");
         }
 
 
