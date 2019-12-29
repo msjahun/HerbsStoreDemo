@@ -56,19 +56,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
   
         <div class="pull-right">
-            <div class="product_list_header">
 
-                <a class="btn btn-primary" asp-controller="Cart" asp-action="Checkout" style="background-color:#84C639;margin-top:7px"> View Your Cart <i class="fa fa-shopping-cart"></i></a>
-            </div>
+            <secure-content>
+                <div class="product_list_header">
+
+                    <a class="btn btn-primary" asp-controller="Cart" asp-action="Checkout" style="background-color: #84C639; margin-top: 7px"> View Your Cart <i class="fa fa-shopping-cart"></i></a>
+                </div>
+
+            </secure-content>
             <div class="w3l_header_right " style="margin-right: 20px">
                 <ul>
                     <li class="dropdown profile_details_drop">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i><span class="caret"></span></a>
                         <div class="mega-dropdown-menu">
                             <div class="w3ls_vegetables">
+
+
                                 <ul class="dropdown-menu drp-mnu">
+                                    <secure-content>User Logged In</secure-content>
+                                    <secure-admin><span>Administrator</span></secure-admin>
                                     <li><a asp-controller="Authentication" asp-action="Login">Login</a></li>
                                     <li><a asp-controller="Authentication" asp-action="Register">Sign Up</a></li>
+                                    <secure-content><li><a asp-controller="Authentication" asp-action="Logout">Logout</a></li></secure-content>
                                 </ul>
                             </div>
                         </div>
@@ -111,6 +120,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li><a asp-controller="Products" asp-action="List">Products</a><i>/</i></li>
                     <li><a asp-controller="Hospitals" asp-action="List">Hospitals</a><i>/</i></li>
                     <li><a asp-controller="Feedback" asp-action="Index">Feedback</a></li>
+                    <secure-admin>
+                        <li><i>/</i><a class="text-danger" asp-controller="Administration" asp-action="Products">Manage Products</a><i>/</i></li>
+                        <li><a class="text-danger" asp-controller="Administration" asp-action="Orders">Manage Orders</a><i>/</i></li>
+                        <li><a class="text-danger" asp-controller="Administration" asp-action="Hospitals">Manage Hospitals</a></li>
+                    </secure-admin>
                 </ul>
             </div>
           
