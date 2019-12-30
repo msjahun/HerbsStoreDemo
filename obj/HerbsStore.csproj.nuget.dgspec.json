@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kamal\\source\\repos\\HerbsStoreDemo\\HerbsStore.csproj": {}
+    "C:\\Users\\DC\\source\\repos\\HerbsStore\\HerbsStore\\HerbsStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kamal\\source\\repos\\HerbsStoreDemo\\HerbsStore.csproj": {
+    "C:\\Users\\DC\\source\\repos\\HerbsStore\\HerbsStore\\HerbsStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kamal\\source\\repos\\HerbsStoreDemo\\HerbsStore.csproj",
+        "projectUniqueName": "C:\\Users\\DC\\source\\repos\\HerbsStore\\HerbsStore\\HerbsStore.csproj",
         "projectName": "HerbsStore",
-        "projectPath": "C:\\Users\\kamal\\source\\repos\\HerbsStoreDemo\\HerbsStore.csproj",
-        "packagesPath": "C:\\Users\\kamal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kamal\\source\\repos\\HerbsStoreDemo\\obj\\",
+        "projectPath": "C:\\Users\\DC\\source\\repos\\HerbsStore\\HerbsStore\\HerbsStore.csproj",
+        "packagesPath": "C:\\Users\\DC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DC\\source\\repos\\HerbsStore\\HerbsStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\kamal\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\DC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -73,7 +75,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
