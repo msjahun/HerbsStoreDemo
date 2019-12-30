@@ -13,15 +13,22 @@ namespace HerbsStore.Libraries.HS.Core.Domain.Orders
         //customerId
         public Order()
         {
-            Products = new HashSet<Product>();
+            OrderProducts = new HashSet<OrderProducts>();
         }
 
-        public ICollection<Product> Products{ get; set; }
+        public ICollection<OrderProducts> OrderProducts { get; set; }
 
         public string UserId { get; set; }
         public User User { get; set; }
         public string Address { get; set; }
         public DateTime CreatedOn { get; set; }
-        public int OrderStatus { get; set; }
+        public bool OrderStatus { get; set; } //true for confirm
+
+        public bool PaymentType { get; set; }//true for credit cart, false for pay on delivery
+        public string NameOnCard { get; set; }
+        public string ExpiryDate { get; set; }
+        public string Cvv { get; set; }
+        public double TotalAmount { get; set; }
+
     }
 }

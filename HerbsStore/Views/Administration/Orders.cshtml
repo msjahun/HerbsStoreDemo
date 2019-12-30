@@ -1,4 +1,4 @@
-﻿
+﻿@model List<HerbsStore.Libraries.HS.Services.OrdersServices.OrderCrudVm>
 @{
     ViewData["Title"] = "Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,29 +24,54 @@
             </tr>
             </thead>
             <tbody>
+            
+            @foreach(var item in Model) {
             <tr>
-                <td><a href="#">1</a> </td>
-                <td><a href="#">Mango</a>  </td>
-                <td>Aminu </td>
-                <td>Eastern Mediteranean University</td>
-                <td>27-DEC-19 11:49pm</td>
-                <td>Pending</td>
-                <td><button class="btn btn-primary">Confirm</button> 
-                    <button class="btn btn-danger">Delete</button>
+                <td>@item.Id </td>
+
+                <td>
+                    @foreach (var product in item.Products)
+                    {
+                        <li>
+                            <a asp-controller="Administration" asp-action="ProductEdit" asp-route-Id="@product.Id">
+                                <img src="@product.ImageUrl" height="30" width="30" />
+                                @product.ProductName
+                                Qty: 5
+                            </a>
+                        </li>
+                    }
+
                 </td>
-            </tr>     
-            <tr>
-                <td><a href="#">1</a> </td>
-                <td><a href="#">Mango</a>  </td>
-                <td>Aminu </td>
-                <td>Eastern Mediteranean University</td>
-                <td>27-DEC-19 11:49pm</td>
-                <td>Pending</td>
-                <td><button class="btn btn-primary">Confirm</button> 
-                    <button class="btn btn-danger">Delete</button>
+                
+
+                <td>@item.CustomerName</td>
+                <td>@item.Address</td>
+                <td>@item.CreatedOn</td>
+                
+                @if (item.OrderStatus)
+                {
+                    <td>Order Confirmed</td>
+                }
+                else
+                {
+                    <td>Pending</td>
+                }
+            <td>
+                
+                @if (item.OrderStatus)
+                {
+                    <a asp-controller="Administration" asp-action="OrderConfirmToggle" asp-route-id="@item.Id" class="btn btn-primary">Confirm</a>
+                }
+                else
+                {
+                    <a asp-controller="Administration" asp-action="OrderConfirmToggle" asp-route-id="@item.Id" class="btn btn-primary">Mark Pending</a>
+                }
+               
+                <a asp-controller="Administration" asp-action="OrderDelete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
                 </td>
-            </tr>     
-                 
+            </tr>
+            }
+
             </tbody>
         </table>
     </div>

@@ -4,14 +4,16 @@ using HerbsStore.Libraries.HS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HerbsStore.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20191230153816_updatedDataTypeOrderStatus")]
+    partial class updatedDataTypeOrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,36 +73,19 @@ namespace HerbsStore.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<long>("ProductId");
+
                     b.Property<int>("Quantity");
 
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.CartProducts", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("CartId");
-
-                    b.Property<long>("ProductId");
-
-                    b.Property<int>("Quantity");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.Order", b =>
@@ -113,17 +98,7 @@ namespace HerbsStore.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
-                    b.Property<string>("Cvv");
-
-                    b.Property<string>("ExpiryDate");
-
-                    b.Property<string>("NameOnCard");
-
                     b.Property<bool>("OrderStatus");
-
-                    b.Property<bool>("PaymentType");
-
-                    b.Property<double>("TotalAmount");
 
                     b.Property<string>("UserId");
 
@@ -132,27 +107,6 @@ namespace HerbsStore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.OrderProducts", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("OrderId");
-
-                    b.Property<long>("ProductId");
-
-                    b.Property<int>("Quantity");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Products.Product", b =>
@@ -171,6 +125,8 @@ namespace HerbsStore.Migrations
 
                     b.Property<double>("OldPrice");
 
+                    b.Property<long?>("OrderId");
+
                     b.Property<double>("Price");
 
                     b.Property<string>("PrimaryCare");
@@ -182,6 +138,8 @@ namespace HerbsStore.Migrations
                     b.Property<string>("SecondaryCare");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
                 });
@@ -395,22 +353,14 @@ namespace HerbsStore.Migrations
 
             modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.Cart", b =>
                 {
+                    b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Products.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.CartProducts", b =>
-                {
-                    b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Orders.Cart", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Products.Product", "Product")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.Order", b =>
@@ -420,17 +370,11 @@ namespace HerbsStore.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Orders.OrderProducts", b =>
+            modelBuilder.Entity("HerbsStore.Libraries.HS.Core.Domain.Products.Product", b =>
                 {
-                    b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Orders.Order", "Order")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Products.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("HerbsStore.Libraries.HS.Core.Domain.Orders.Order")
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

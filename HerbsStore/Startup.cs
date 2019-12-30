@@ -9,6 +9,7 @@ using HerbsStore.Libraries.HS.Services.DropdownServices;
 using HerbsStore.Libraries.HS.Services.FeedbackServices;
 using HerbsStore.Libraries.HS.Services.HospitalServices;
 using HerbsStore.Libraries.HS.Services.ImageServices;
+using HerbsStore.Libraries.HS.Services.OrdersServices;
 using HerbsStore.Libraries.HS.Services.ProductServices;
 using HerbsStore.Libraries.HS.Services.Security;
 using Microsoft.AspNetCore.Builder;
@@ -59,6 +60,8 @@ namespace HerbsStore
             services.AddScoped<IDropdownService, DropdownService> ();
             services.AddScoped< IHospitalService,HospitalService > ();
             services.AddScoped< IFeedbackService, FeedbackService > ();
+            services.AddScoped<IOrderService, OrderService > ();
+            services.AddScoped<ICartService, CartService> ();
 
 
             var connectionString = Configuration.GetValue<string>("DbSettings:SqlConnectionString");

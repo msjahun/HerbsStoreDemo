@@ -1,4 +1,5 @@
 ﻿
+@model HerbsStore.Libraries.HS.Services.OrdersServices.CartCrudVm
 @{
     ViewData["Title"] = "Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,15 +8,29 @@
     <!-- about -->
     <div class="privacy about">
         <h3>Chec<span>kout</span></h3>
+        @if (Model != null) {
+
+            @if (Model.Products != null) {
+                @if (Model.Products.Count > 0) {
+
 
         <div class="checkout-right">
-            <h4>Your shopping cart contains: <span>3 Products</span></h4>
+            <h4>Your shopping cart contains:
+            @if (Model != null)
+            {
+                <span>@Model.Products.Count Products</span>
+            }
+            else
+            {
+                <span>0 Products</span>
+            }
+                </h4>
             <table class="timetable_sub">
                 <thead>
                     <tr>
                         <th>SL No.</th>
                         <th>Product</th>
-                        <th>Quality</th>
+                        <th>Quantity</th>
                         <th>Product Name</th>
 
                         <th>Price</th>
@@ -23,140 +38,155 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="rem1">
-                        <td class="invert">1</td>
-                        <td class="invert-image"><a href="single.html"><img src="~/images/1.png" alt=" " class="img-responsive"></a></td>
-                        <td class="invert">
-                            <div class="quantity">
-                                <div class="quantity-select">
-                                    <div class="entry value-minus">&nbsp;</div>
-                                    <div class="entry value"><span>1</span></div>
-                                    <div class="entry value-plus active">&nbsp;</div>
-                                </div>
+                
+             
+                @foreach (var item in Model.Products)
+                {
+
+               
+                <tr class="rem1">
+                    <td class="invert">@item.Id</td>
+                    <td class="invert-image"><a href="single.html"><img src="@item.ImageUrl" alt=" " class="img-responsive"></a></td>
+                    <td class="invert">
+                        <div class="quantity">
+                            <div class="quantity-select">
+                                <a asp-controller="Cart" asp-action="SubtractProductQuantity" asp-route-id="@item.Id" class="entry value-minus">&nbsp;</a>
+                                <div class="entry value"><span>@item.Quantity</span></div>
+                                <a asp-controller="Cart" asp-action="AddProductQuantity" asp-route-id="@item.Id" class="entry value-plus active">&nbsp;</a>
                             </div>
-                        </td>
-                        <td class="invert">Fortune Sunflower Oil</td>
+                        </div>
+                    </td>
+                    <td class="invert">@item.ProductName</td>
 
-                        <td class="invert">$290.00</td>
-                        <td class="invert">
-                            <div class="rem">
-                                <div class="close1"> </div>
-                            </div>
+                    <td class="invert">TL @item.TotalProductPrice</td>
+                    <td class="invert">
+                        <div class="rem">
+                              <a asp-controller="Cart" asp-action="DeleteProductFromCart" asp-route-id="@item.Id"  class="close1"> </a>
+                        </div>
 
-                        </td>
-                    </tr>
-                    <tr class="rem2">
-                        <td class="invert">2</td>
-                        <td class="invert-image"><a href="single.html"><img src="~/images/3.png" alt=" " class="img-responsive"></a></td>
-                        <td class="invert">
-                            <div class="quantity">
-                                <div class="quantity-select">
-                                    <div class="entry value-minus">&nbsp;</div>
-                                    <div class="entry value"><span>1</span></div>
-                                    <div class="entry value-plus active">&nbsp;</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="invert">Basmati Rise (5 Kg)</td>
-
-                        <td class="invert">$250.00</td>
-                        <td class="invert">
-                            <div class="rem">
-                                <div class="close2"> </div>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr class="rem3">
-                        <td class="invert">3</td>
-                        <td class="invert-image"><a href="single.html"><img src="~/images/2.png" alt=" " class="img-responsive"></a></td>
-                        <td class="invert">
-                            <div class="quantity">
-                                <div class="quantity-select">
-                                    <div class="entry value-minus">&nbsp;</div>
-                                    <div class="entry value"><span>1</span></div>
-                                    <div class="entry value-plus active">&nbsp;</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="invert">Pepsi Soft Drink (2 Ltr)</td>
-
-                        <td class="invert">$15.00</td>
-                        <td class="invert">
-                            <div class="rem">
-                                <div class="close3"> </div>
-                            </div>
-
-                        </td>
-                    </tr>
-
+                    </td>
+                </tr>
+                }
+              
                 </tbody>
             </table>
         </div>
-        <div class="checkout-left">
-            <div class="col-md-4 checkout-left-basket">
-                <h4>Continue to basket</h4>
-                <ul>
-                    <li>Product1 <i>-</i> <span>$15.00 </span></li>
-                    <li>Product2 <i>-</i> <span>$25.00 </span></li>
-                    <li>Product3 <i>-</i> <span>$29.00 </span></li>
-                    <li>Total Service Charges <i>-</i> <span>$15.00</span></li>
-                    <li>Total <i>-</i> <span>$84.00</span></li>
-                </ul>
-            </div>
-            <div class="col-md-8 address_form_agile">
-                <h4>Add a new Details</h4>
-                <form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
-                    <section class="creditly-wrapper wthree, w3_agileits_wrapper">
-                        <div class="information-wrapper">
-                            <div class="first-row form-group">
-                                <div class="controls">
-                                    <label class="control-label">Full name: </label>
-                                    <input class="billing-address-name form-control" type="text" name="name" placeholder="Full name">
-                                </div>
-                                <div class="w3_agileits_card_number_grids">
-                                    <div class="w3_agileits_card_number_grid_left">
-                                        <div class="controls">
-                                            <label class="control-label">Mobile number:</label>
-                                            <input class="form-control" type="text" placeholder="Mobile number">
-                                        </div>
-                                    </div>
-                                    <div class="w3_agileits_card_number_grid_right">
-                                        <div class="controls">
-                                            <label class="control-label">Landmark: </label>
-                                            <input class="form-control" type="text" placeholder="Landmark">
-                                        </div>
-                                    </div>
-                                    <div class="clear"> </div>
-                                </div>
-                                <div class="controls">
-                                    <label class="control-label">Town/City: </label>
-                                    <input class="form-control" type="text" placeholder="Town/City">
-                                </div>
-                                <div class="controls">
-                                    <label class="control-label">Address type: </label>
-                                    <select class="form-control option-w3ls">
-                                        <option>Office</option>
-                                        <option>Home</option>
-                                        <option>Commercial</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <button class="submit check_out">Delivery to this Address</button>
+                <div class="checkout-left">
+                    <div class="col-md-4 checkout-left-basket">
+                        <h4>Summary</h4>
+                        <ul>
+                    
+                            <li>Total Service Charges <i>-</i> <span>$0.00</span></li>
+                            <li>Total <i>-</i>
+                                @if (Model != null)
+                                {
+                                    <span>TL @Model.TotalCartPrice</span>
+                                }
+                                else
+                                {
+                                    <span>TL 0.00</span>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-8 address_form_agile">
+                        <h4>Payment </h4>
+                        <div class="radio">
+                            <label><input type="radio" id="dl" value="NO" asp-for="PaymentType" name="yesno" checked/> Payment On Delivery</label>
                         </div>
-                    </section>
-                </form>
-                <div class="checkout-right-basket">
-                    <a href="payment.html">Make a Payment <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+                        <div class="radio">
+                            <label><input type="radio" id="dl" value="YES" asp-for="PaymentType" name="yesno"  />Pay with Credit Card</label>
+                        </div>
+            
+
+               
+                        <form asp-controller="Cart" asp-action="Checkout" method="post" class="creditly-card-form agileinfo_form">
+                            <section class="creditly-wrapper wthree, w3_agileits_wrapper">
+                                <div class="information-wrapper">
+                                    <div class="first-row form-group">
+                                        <div class="controls">
+                                            <label class="control-label">Name on card: </label>
+                                            <input asp-for="NameOnCard" class="billing-address-name form-control card-disable" disabled  type="text" name="name" placeholder="Full name">
+                                        </div>
+                                        <div class="w3_agileits_card_number_grids">
+                                            <div class="w3_agileits_card_number_grid_left">
+                                                <div class="controls">
+                                                    <label class="control-label">Card Number:</label>
+                                                    <input asp-for="CardNumber" class="form-control card-disable" disabled  type="text" placeholder="Card Number">
+                                                </div>
+                                            </div>
+                                            <div class="w3_agileits_card_number_grid_right">
+                                                <div class="controls">
+                                                    <label  class="control-label">Expiry Date </label>
+                                                    <input asp-for="ExpiryDate" class="form-control card-disable" disabled  type="date" placeholder="Expiry Date">
+                                                </div>
+                                            </div>
+                                            <div class="clear"> </div>
+                                        </div>
+                                        <div class="controls">
+                                            <label class="control-label">CVV: </label>
+                                            <input asp-for="Cvv" class="form-control card-disable" disabled type="text" placeholder="CVV">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </section>
+                            <div class="checkout-right-basket">
+                                <button type="submit" class="btn btn-primary btn-lg">Complete Order<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
+                            </div>
+                        </form>
+              
+                    </div>
+
+                    <div class="clearfix"> </div>
+
                 </div>
+                }
+                else
+                {
+                    <br/>
+                    <br/>
+                    <div class="text-center">
+                        <span class="text-center">No products in Your Cart</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <br/>
+                <br/>
+                <div class="text-center">
+                    <span class="text-center">No products in Your Cart</span>
+                </div>
+            }
+        }
+        else
+        {
+            <br/>
+            <br/>
+            <div class="text-center">
+                <span class="text-center">No products in Your Cart</span>
             </div>
-
-            <div class="clearfix"> </div>
-
-        </div>
-
+        }
     </div>
     <!-- //about -->
 </div>
+<script>
 
+        var div = $("#dlyes");  
+    $("input:radio").click(function(){  
+        var radioVal = this.value;  
+        if(radioVal === "NO"){  
+            //disable the payment controls 
+            $(".card-disable").prop('disabled', true);
+            $('.card-disable').val('');
+            
+        }
+        else {
+           //enable the payment controls
+            $(".card-disable").prop('disabled', false);
+           $('.card-disable').val('');
+        }
+    });
+</script>

@@ -11,8 +11,12 @@ namespace HerbsStore.Libraries.HS.Core.Domain.Orders
     {
         //product id //use to get product image, price, name
         //userId //use to know who ordered what and when
-        public long ProductId { get; set; }
-        public Product Product { get; set; }
+        public Cart()
+        {
+            CartProducts = new HashSet<CartProducts>();
+        }
+
+        public ICollection<CartProducts> CartProducts{ get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
         public int Quantity { get; set; }

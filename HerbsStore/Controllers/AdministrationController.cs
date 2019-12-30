@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HerbsStore.Libraries.HS.Services.FeedbackServices;
 using HerbsStore.Libraries.HS.Services.HospitalServices;
+using HerbsStore.Libraries.HS.Services.OrdersServices;
 using HerbsStore.Libraries.HS.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,14 +15,17 @@ namespace HerbsStore.Controllers
         private readonly IProductService _productService;
         private readonly IHospitalService _hospitalService;
         private readonly IFeedbackService _feedbackService;
+        private readonly IOrderService _orderService;
 
         public AdministrationController(IProductService productService,
             IHospitalService hospitalService,
-            IFeedbackService feedbackService)
+            IFeedbackService feedbackService,
+            IOrderService orderService)
         {
             _productService = productService;
             _hospitalService = hospitalService;
             _feedbackService = feedbackService;
+            _orderService = orderService;
 
         }
         public IActionResult Products()
@@ -83,17 +87,24 @@ namespace HerbsStore.Controllers
         }
         public IActionResult Orders()
         {
-            return View();
+            var model = _orderService.GetOrders();
+            return View(model);
         }
 
-        public IActionResult OrderEdit()
+    
+
+        public IActionResult OrderConfirmToggle(long id)
         {
-            return View();
+            _orderService.OrderConfirmationToggle(id);
+
+            return RedirectToAction("Orders");
         }
 
-        public IActionResult OrderConfirm()
+        public IActionResult OrderDelete(long id)
         {
-            return View();
+            _orderService.DeleteOrder(id);
+
+            return RedirectToAction("Orders");
         }
 
 

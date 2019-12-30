@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using HerbsStore.Libraries.HS.Services.ProductServices;
 using Microsoft.AspNetCore.Mvc;
 using HerbsStore.Models;
 
@@ -10,15 +11,22 @@ namespace HerbsStore.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IProductService _productService;
+
         public IActionResult Index()
         {
-            return View();
+            var products = _productService.GetProducts().Take(3);
+            return View(products.ToList()); 
         }
 
-        
 
 
+        public HomeController(IProductService productService)
+        {
+            _productService = productService;
+        }
 
+    
         public IActionResult Privacy()
         {
             return View();
