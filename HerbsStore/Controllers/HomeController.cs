@@ -15,8 +15,13 @@ namespace HerbsStore.Controllers
 
         public IActionResult Index()
         {
-            var products = _productService.GetProducts().Take(3);
-            return View(products.ToList()); 
+            var products = new ProductCrudVm
+            {
+                List = _productService.GetProducts(new ProductCrudVm()).Take(3).ToList()
+
+            };
+        
+            return View(products); 
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HerbsStore.Libraries.HS.Core.Domain.Diseases;
 using HerbsStore.Libraries.HS.Core.Domain.Orders;
 
 namespace HerbsStore.Libraries.HS.Core.Domain.Products
@@ -10,6 +11,7 @@ namespace HerbsStore.Libraries.HS.Core.Domain.Products
         {
             OrderProducts = new HashSet<OrderProducts>();
             CartProducts = new HashSet<CartProducts>();
+            ProductDiseases = new HashSet<ProductDisease>();
         }
         public string ProductName { get; set; }
         public int ProductType { get; set; }
@@ -25,6 +27,7 @@ namespace HerbsStore.Libraries.HS.Core.Domain.Products
 
         public ICollection<OrderProducts> OrderProducts { get; set; }
         public ICollection<CartProducts> CartProducts{ get; set; }
+        public ICollection<ProductDisease> ProductDiseases{ get; set; }
 
     }
 }

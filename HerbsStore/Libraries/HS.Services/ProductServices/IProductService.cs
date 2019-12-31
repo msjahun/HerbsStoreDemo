@@ -8,6 +8,6 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
         ProductCrudVm GetProductById(long id);
         bool ProductUpdate(ProductCrudVm productVm);
         void DeleteProduct(long productId);
-        List<ProductCrudVm> GetProducts();
+        List<ProductCrudVm> GetProducts(ProductCrudVm vm);
     }
 }

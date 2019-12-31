@@ -6,7 +6,7 @@
         bool AddQuantityToCart(long productId);
         bool SubtractQuantityToCart(long productId);
         bool RemoveItemFromCart(long productId);
-        bool CompleteCartOrder();
+        bool CompleteCartOrder(CartCrudVm vm);
         CartCrudVm GetCart();
     }
 }

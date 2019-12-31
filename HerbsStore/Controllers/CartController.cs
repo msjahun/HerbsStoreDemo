@@ -19,6 +19,8 @@ namespace HerbsStore.Controllers
             _cartService = cartService;
             _permissionService = permissionService;
         }
+
+        [HttpGet]
         public IActionResult Checkout()
         {
             if (!_permissionService.Authorize())
@@ -27,6 +29,20 @@ namespace HerbsStore.Controllers
             var model = _cartService.GetCart();
             return View(model);
         }
+
+        [HttpPost]
+        public IActionResult Checkout(CartCrudVm vm)
+        {
+            if (!_permissionService.Authorize())
+                return Unauthorized();
+
+            var success = _cartService.CompleteCartOrder(vm);
+          //redirect to order confirmation
+          //
+
+          return RedirectToAction("OrderConfirmation", new {success = success});
+        }
+
 
         public IActionResult AddProductQuantity(long id)
         {
@@ -65,6 +81,11 @@ namespace HerbsStore.Controllers
 
             _cartService.AddProductToCart(id);
             return RedirectToAction("List", "Products");
+        }
+
+        public IActionResult OrderConfirmation(bool success)
+        {
+            return View(success);
         }
     }
 }

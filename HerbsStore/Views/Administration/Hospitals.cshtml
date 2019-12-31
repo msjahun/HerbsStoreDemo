@@ -16,6 +16,7 @@
             <thead>
             <tr>
                 <th>#</th>
+                <th>Image</th>
                 <th>Hospital Name</th>
                 <th>Address</th>
                 <th>Description</th>
@@ -35,7 +36,7 @@
                 <td>@item.HospitalName</td>
                 <td>@item.HospitalAddress</td>
                 <td>@item.Description</td>
-                <td>@item.DiseaseName</td>
+                <td>@item.DiseasesFlat</td>
                 <td><a asp-controller="Administration" asp-action="HospitalEdit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
                     <a asp-controller="Administration" asp-action="DeleteHospital" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 </td>

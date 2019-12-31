@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HerbsStore.Libraries.HS.Core.Domain.Diseases;
+using HerbsStore.Libraries.HS.Services.DiseaseServices;
 using HerbsStore.Libraries.HS.Services.FeedbackServices;
 using HerbsStore.Libraries.HS.Services.HospitalServices;
 using HerbsStore.Libraries.HS.Services.OrdersServices;
@@ -16,21 +18,24 @@ namespace HerbsStore.Controllers
         private readonly IHospitalService _hospitalService;
         private readonly IFeedbackService _feedbackService;
         private readonly IOrderService _orderService;
+        private readonly IDiseaseService _diseaseService;
 
         public AdministrationController(IProductService productService,
             IHospitalService hospitalService,
             IFeedbackService feedbackService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IDiseaseService diseaseService)
         {
             _productService = productService;
             _hospitalService = hospitalService;
             _feedbackService = feedbackService;
             _orderService = orderService;
+            _diseaseService = diseaseService;
 
         }
-        public IActionResult Products()
+        public IActionResult Products(ProductCrudVm vm)
         {
-            var model = _productService.GetProducts();
+            var model = _productService.GetProducts(vm);
             return View(model);
         }
 
@@ -109,9 +114,73 @@ namespace HerbsStore.Controllers
 
 
 
+        public IActionResult Diseases()
+        {
+            var model = _diseaseService.GetDiseases();
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult DiseaseAdd()
+        {
+          
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult DiseaseAdd(DiseaseCrudVm vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+
+            //its valid, send to disease Service return Id, passId to Edit
+            var diseaseId = _diseaseService.DiseaseAdd(vm); 
+            return RedirectToAction("DiseaseEdit", "Administration", new { @id = diseaseId});
+     
+        }
+
+        [HttpGet]
+        public IActionResult DiseaseEdit(long id)
+        {
+
+            var model =  _diseaseService.GetDiseaseById(id);
+            if (model == null)
+                return RedirectToAction("Diseases", "Administration");
+            return View(model);
+           
+        }
+
+
+        [HttpPost]
+        public IActionResult DiseaseEdit(DiseaseCrudVm vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+
+            //its valid, send to productService return Id, passId to Edit
+            
+            var success = _diseaseService.DiseaseUpdate(vm);
+            return RedirectToAction("DiseaseEdit", "Administration", new { @id = vm.Id });
+        }
+
+        public IActionResult DeleteDisease(long id)
+        {
+            //delete and redirect to Hospitals
+
+            _diseaseService.DeleteDisease(id);
+
+            return RedirectToAction("Diseases");
+
+        }
+
+
+
         public IActionResult Hospitals()
         {
-            var model = _hospitalService.GetHospitals();
+            var model = _hospitalService.GetHospitals(new HospitalCrudVm());
             return View(model);
         }
 
@@ -119,7 +188,7 @@ namespace HerbsStore.Controllers
         [HttpGet]
         public IActionResult HospitalAdd()
         {
-          
+
             return View();
         }
 
@@ -132,8 +201,8 @@ namespace HerbsStore.Controllers
 
             //its valid, send to productService return Id, passId to Edit
             var hospitalId = _hospitalService.HospitalAdd(vm);
-            return RedirectToAction("HospitalEdit", "Administration", new { @id = hospitalId});
-     
+            return RedirectToAction("HospitalEdit", "Administration", new { @id = hospitalId });
+
         }
 
         [HttpGet]
@@ -144,7 +213,7 @@ namespace HerbsStore.Controllers
             if (model == null)
                 return RedirectToAction("Hospitals", "Administration");
             return View(model);
-           
+
         }
 
 

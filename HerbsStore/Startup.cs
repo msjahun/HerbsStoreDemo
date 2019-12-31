@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using HerbsStore.Libraries.HS.Core.Domain.Users;
 using HerbsStore.Libraries.HS.Data;
 using HerbsStore.Libraries.HS.Data.Repository;
+using HerbsStore.Libraries.HS.Services.DiseaseServices;
 using HerbsStore.Libraries.HS.Services.DropdownServices;
 using HerbsStore.Libraries.HS.Services.FeedbackServices;
 using HerbsStore.Libraries.HS.Services.HospitalServices;
@@ -62,6 +64,7 @@ namespace HerbsStore
             services.AddScoped< IFeedbackService, FeedbackService > ();
             services.AddScoped<IOrderService, OrderService > ();
             services.AddScoped<ICartService, CartService> ();
+            services.AddScoped< IDiseaseService, DiseaseService > ();
 
 
             var connectionString = Configuration.GetValue<string>("DbSettings:SqlConnectionString");
@@ -96,6 +99,18 @@ namespace HerbsStore
             // identity middleware
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseStatusCodePages(async context => {
+                var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+                    // you may also check requests path to do this only for specific methods       
+                    // && request.Path.Value.StartsWith("/specificPath")
+
+                {
+                    response.Redirect("/authentication/login");
+                }
+            });
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

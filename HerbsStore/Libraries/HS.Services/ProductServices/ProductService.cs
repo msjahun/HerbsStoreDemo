@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using HerbsStore.Libraries.HS.Core.Domain.Diseases;
 using HerbsStore.Libraries.HS.Core.Domain.Products;
 using HerbsStore.Libraries.HS.Data.Repository;
-using HerbsStore.Libraries.HS.Services.DropdownServices;
+using HerbsStore.Libraries.HS.Services.DiseaseServices;
 using HerbsStore.Libraries.HS.Services.ImageServices;
 
 namespace HerbsStore.Libraries.HS.Services.ProductServices
@@ -14,15 +14,21 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
     {
         private readonly IRepository<Product> _productsRepo;
         private readonly IImageService _imageService;
-        private readonly IDropdownService _dropdownService;
+        private readonly IRepository<ProductDisease> _productDiseaseRepo;
+        private readonly IDiseaseService _diseaseService;
+        private readonly IRepository<Disease> _diseaseRepo;
 
         public ProductService(IRepository<Product> productsRepo,
             IImageService imageService,
-            IDropdownService dropdownService)
+            IRepository<ProductDisease> productDiseaseRepo,
+            IDiseaseService diseaseService,
+            IRepository<Disease> diseaseRepo)
         {
             _productsRepo = productsRepo;
             _imageService = imageService;
-            _dropdownService = dropdownService;
+            _productDiseaseRepo = productDiseaseRepo;
+            _diseaseService = diseaseService;
+            _diseaseRepo = diseaseRepo;
         }
         public long ProductAdd(ProductCrudVm vm)
         {
@@ -39,8 +45,20 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
                 ImageUrl = _imageService.UploadProductImage()
             };
 
-            return  _productsRepo.Insert(product);
-            
+           var productId = _productsRepo.Insert(product);
+            //take list of disease and add to db
+            foreach (var item in vm.DiseaseListIds)
+            {
+           
+                _productDiseaseRepo.Insert(new ProductDisease
+                    {
+                        ProductId = productId,
+                        DiseaseId = item
+                    });
+
+            }
+
+            return productId;
         }
 
         public ProductCrudVm GetProductById(long id)
@@ -60,12 +78,43 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
                 Price = product.Price,
                 OldPrice = product.OldPrice,
                 CreatedOn = product.CreatedOn.ToString(CultureInfo.InvariantCulture),
-                ImageUrl = string.IsNullOrEmpty(product.ImageUrl)? "/images/default-image_100.png" : product.ImageUrl
+                ImageUrl = string.IsNullOrEmpty(product.ImageUrl)? "/images/default-image_100.png" : product.ImageUrl,
+                DiseaseListIds = GetProductDiseaseIdsByProductId(product.Id),
+                ProductDiseases =_diseaseService.FlattenDiseasesList(GetProductDiseaseByProductId(product.Id))
+
             };
 
             return model;
         }
 
+
+        public List<string> GetProductDiseaseByProductId(long id)
+        {
+            var product = _productsRepo.GetById(id);
+            if (product == null) return null;
+
+            var productDisease = from d in _diseaseRepo.List()
+                join prodDis in _productDiseaseRepo.List() on d.Id equals prodDis.DiseaseId
+                                 where prodDis.ProductId == product.Id
+                select d.DiseaseName;
+            return productDisease.ToList();
+
+
+        }      
+        
+        public List<long> GetProductDiseaseIdsByProductId(long id)
+        {
+            var product = _productsRepo.GetById(id);
+            if (product == null) return null;
+
+            var productDisease = from d in _diseaseRepo.List()
+                join prodDis in _productDiseaseRepo.List() on d.Id equals prodDis.DiseaseId
+                                 where prodDis.ProductId == product.Id
+                select d.Id;
+            return productDisease.ToList();
+
+
+        }
         public bool ProductUpdate(ProductCrudVm vm)
         {
             var product = _productsRepo.GetById(vm.Id);
@@ -86,6 +135,26 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
 
             _productsRepo.Update(product);
 
+            //take list of disease and clear existing and add new to list
+            var productDiseases = _productDiseaseRepo.List().Where(c => c.ProductId == product.Id).ToList();
+            foreach (var item in productDiseases)
+            {
+                _productDiseaseRepo.Delete(item);
+            }
+            //^delete current ids
+
+            if (vm.DiseaseListIds != null)
+                foreach (var item in vm.DiseaseListIds)
+            {
+
+                _productDiseaseRepo.Insert(new ProductDisease
+                {
+                    ProductId = product.Id,
+                    DiseaseId = item
+                });
+
+            }
+            //^inserts new ids
             return true;
         }
 
@@ -94,13 +163,28 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
             var product = _productsRepo.GetById(productId);
             if (product == null) return;
 
+            var productDiseases = _productDiseaseRepo.List().Where(c => c.ProductId == product.Id).ToList();
+            foreach (var item in productDiseases)
+            {
+                _productDiseaseRepo.Delete(item);
+            }
+            //^delete current ids
+
             _productsRepo.Delete(product);
         }
 
 
-        public List<ProductCrudVm> GetProducts()
+        public List<ProductCrudVm> GetProducts(ProductCrudVm vm)
         {
-            var model = from product in _productsRepo.List()
+
+            var products = _productsRepo.List().ToList();
+            var productDisease = _productDiseaseRepo.List().ToList();
+            products = ProductFilterHelpers.ProductType(products, vm.ProductType);
+            products = ProductFilterHelpers.SearchProductName(products, vm.ProductName);
+            products = ProductFilterHelpers.DiseaseType(products, productDisease, vm.DiseaseId);
+
+            //filters are productName, productType, DiseaseType
+           var model = from product in products
                 select new ProductCrudVm
                 {
                     Id = product.Id,
@@ -113,10 +197,14 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
                     Price = product.Price,
                     OldPrice = product.OldPrice,
                     CreatedOn = product.CreatedOn.ToString(CultureInfo.InvariantCulture),
-                    ImageUrl = string.IsNullOrEmpty(product.ImageUrl) ? "/images/default-image_100.png" : product.ImageUrl
+                    ImageUrl = string.IsNullOrEmpty(product.ImageUrl) ? "/images/default-image_100.png" : product.ImageUrl,
+                    ProductDiseases = _diseaseService.FlattenDiseasesList(GetProductDiseaseByProductId(product.Id))
                 };
 
             return model.ToList();
+
+            
+
         } 
     }
 
@@ -137,5 +225,10 @@ namespace HerbsStore.Libraries.HS.Services.ProductServices
         public double OldPrice { get; set; }
         public string CreatedOn { get; set; }
         public string ImageUrl { get; set; }
+
+        public List<ProductCrudVm> List { get; set; }
+        public int DiseaseId { get; set; }
+        public List<long> DiseaseListIds { get; set; }
+        public string ProductDiseases { get; set; }
     }
 }

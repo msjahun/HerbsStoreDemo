@@ -24,6 +24,7 @@
                         <th>Cost</th>
                         <th>Description</th>
                         <th>Feature</th>
+                        <th>Diseases</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -39,6 +40,7 @@
                             <td>TL @item.Price</td>
                             <td>@item.ProductDescription</td>
                             <td>@item.ProductFeature</td>
+                            <td>@item.ProductDiseases</td>
                             <td>
                                 <a asp-controller="Administration" asp-action="ProductEdit" asp-route-Id="@item.Id" class="btn btn-primary">Edit</a>
                                 <a asp-controller="Administration" asp-action="DeleteProduct" asp-route-Id="@item.Id" class="btn btn-danger">Delete</a>

@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model HerbsStore.Libraries.HS.Services.ProductServices.ProductCrudVm
+<br />
+<br />
+<h4 class="mb-4 text-dark text-capitalize">Search Products</h4>
+<br />
+<div class="container  " style="background-color: aliceblue">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+
+            <form method="get" asp-controller="Products" asp-action="List">
+                <div class="form-group ">
+                    <div class="row">
+
+                        <div class=" col-md-3">
+                            <div>
+
+                                <input type="text" placeholder="Type a product name" class="form-control" asp-for="ProductName" value="">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3 mb-4">
+
+                            <select class="form-control" data-toggle="select" asp-items="_dropdown.ProductsTypes()" data-live-search="true" asp-for="ProductType">
+                                <option value="0">All Products</option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 mb-4">
+
+                            <select class="form-control" data-toggle="select" asp-items="_dropdown.GetDisease()" data-live-search="true" asp-for="DiseaseId">
+                                <option value="0">All Diseases</option>
+
+                            </select>
+                        </div>
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-primary btn-bg">
+                                <span class="btn-inner--icon">
+                                    <i class="fa fa-search"></i>
+                                </span> Search Products
+                            </button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+<br />

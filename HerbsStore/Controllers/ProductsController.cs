@@ -12,9 +12,16 @@ namespace HerbsStore.Controllers
             _productService = productService;
         }
   
-        public IActionResult List()
+        public IActionResult List(ProductCrudVm vm)
         {
-            var products = _productService.GetProducts();
+            var model = new ProductCrudVm {List = _productService.GetProducts(vm)};
+            return View(model);
+        }
+
+        public IActionResult Detail(long id)
+        {
+            var products = _productService.GetProductById(id);
+            if (products == null) RedirectToAction("List");
             return View(products);
         }
     }

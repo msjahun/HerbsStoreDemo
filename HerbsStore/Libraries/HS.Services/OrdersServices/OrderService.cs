@@ -57,7 +57,8 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
                     Address = GetUserAddress(or.UserId),
                     Products = GetOrderedProducts(or.Id),
                     CreatedOn = or.CreatedOn.ToString(CultureInfo.InvariantCulture),
-                    OrderStatus = or.OrderStatus
+                    OrderStatus = or.OrderStatus,
+                    TotalAmount = or.TotalAmount
 
                 };
 
@@ -68,13 +69,19 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
         //one for getting customer name,
         //one for getting customer address.
 
-        private IEnumerable<Product> GetOrderedProducts(long orderId)
+        private IEnumerable<orderedProducts> GetOrderedProducts(long orderId)
         {
 
             var model = from _orPr in _orderedProductsRepo.List()
                 join prod in _productsRepo.List() on _orPr.ProductId equals prod.Id
                 where _orPr.OrderId == orderId
-                select prod;
+                select new orderedProducts
+                {
+                    ProductName = prod.ProductName,
+                    ImageUrl = prod.ImageUrl,
+                    Quantity = _orPr.Quantity,
+                    Id = prod.Id
+                };
 
             return model;
         }
@@ -98,15 +105,30 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
       
     }
 
+    public class orderedProducts
+    {
+        public string ProductName { get; set; }
+        public int ProductType { get; set; }
+        public double Price { get; set; }
+        public double OldPrice { get; set; }
 
+        public string Description { get; set; }
+        public string Feature { get; set; }
+        public string PrimaryCare { get; set; }
+        public string SecondaryCare { get; set; }
+        public string ImageUrl { get; set; }
+
+        public int Quantity { get; set; }
+        public long Id { get; set; }
+    }
     public class OrderCrudVm
     {
         public long Id { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public IEnumerable<orderedProducts> Products { get; set; }
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public string CreatedOn { get; set; }
         public bool OrderStatus { get; set; }
-
+        public double TotalAmount { get; set; }
     }
 }

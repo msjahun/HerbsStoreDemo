@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "OrderConfirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class=" text-center" style="margin-top: 100px; margin-bottom: 200px">
+        @if (Model) {
+            <h3> Order Placed Success Fully</h3>
+        <br />
+        <br />
+        <br />
+            <img src="/images/check.png" width="250" height="250" />
+       
+        }
+        else {
+
+
+    <h3>Error encountered while placing order</h3>
+      
+        <br />
+        <br />
+            <br />
+            <img src="/images/times.png" width="250" height="250" />
+      
+        
+        }
+        <br />
+        <br />
+        <br />
+        <a href="/" class="btn btn-primary btn-lg">Go back to home</a>
+    </div>
+

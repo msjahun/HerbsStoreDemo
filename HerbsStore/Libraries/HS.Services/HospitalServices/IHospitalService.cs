@@ -8,6 +8,6 @@ namespace HerbsStore.Libraries.HS.Services.HospitalServices
         HospitalCrudVm GetHospitalById(long id);
         bool HospitalUpdate(HospitalCrudVm hospitalVm);
         void DeleteHospital(long hospitalId);
-        List<HospitalCrudVm> GetHospitals();
+        List<HospitalCrudVm> GetHospitals(HospitalCrudVm vm);
     }
 }

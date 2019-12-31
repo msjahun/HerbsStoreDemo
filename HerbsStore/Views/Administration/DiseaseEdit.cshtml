@@ -1,0 +1,56 @@
+﻿@model HerbsStore.Libraries.HS.Services.DiseaseServices.DiseaseCrudVm
+@{
+    ViewData["Title"] = "DiseaseEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="container text-center" style="background-color: #f5f5f5; padding:30px">
+
+        <br />
+        <h2>Update Disease Details - Id: @Model.Id</h2>
+        <br />
+
+
+        <form class="container" method="post" asp-controller="Administration" asp-action="DiseaseEdit" id="addForm" >
+
+            <div style="color:red;" asp-validation-summary="All"></div>
+        <input type="hidden" asp-for="Id"/>
+
+
+
+
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Disease Name</label>
+                    </div>
+
+                    <div class="col-md-5">
+                        <input type="text" asp-for="DiseaseName" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+      
+
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Disease Description</label>
+                    </div>
+                    <div class="col-md-5">
+                        <textarea asp-for="DiseaseDescription" class="form-control"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <button type="submit" style="margin: 15px" class=" btn btn-primary  text-center">Update Disease</button>
+        </form>
+
+
+    </div>
+

@@ -1,0 +1,48 @@
+﻿@model List<HerbsStore.Libraries.HS.Services.DiseaseServices.DiseaseCrudVm>
+@{
+    ViewData["Title"] = "Diseases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+     
+    <h2 class="typoh2">List of Disease</h2>
+    <br/>
+    <div class="pull-right">
+        <a asp-controller="Administration" asp-action="DiseaseAdd" class="btn btn-primary">Add New</a>
+    </div>
+    <div class="bs-docs-example">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+             
+                <th>Disease Name</th>
+                <th>Disease Description</th>
+                <th>Created On</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            @foreach (var item in Model)
+            {
+
+          
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.DiseaseName</td>
+                    <td>@item.DiseaseDescription</td>
+                    <td>@item.CreatedOn</td>
+                    <td><a asp-controller="Administration" asp-action="DiseaseEdit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Administration" asp-action="DeleteDisease" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+
+            }
+
+            </tbody>
+        </table>
+    </div>
+    <hr class="bs-docs-separator">
+</div>

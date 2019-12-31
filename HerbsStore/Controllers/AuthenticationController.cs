@@ -132,10 +132,10 @@ namespace HerbsStore.Controllers
 
                     await UserManager.UpdateAsync(user);
                     var st = vm.ReturnUrl;
-                    if (st != null)
+                    if (!string.IsNullOrEmpty(st))
                         return Redirect(vm.ReturnUrl);
 
-                    return RedirectToAction("", "Home");
+                    return RedirectToAction("Index", "Home");
 
                 }
 

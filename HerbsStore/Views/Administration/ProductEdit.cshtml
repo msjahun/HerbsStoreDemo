@@ -134,6 +134,19 @@
             </div>
         </div>
 
+        <div class="form-group">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Disease Types (Multi-select) </label>
+                </div>
+
+                <div class="col-md-5">
+                    <select  asp-for="DiseaseListIds" asp-items="_dropdown.GetDisease()" multiple="multiple" class="form-control">
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <button type="submit" style="margin: 15px" class=" btn btn-primary  text-center">Update Product information</button>
     </form>

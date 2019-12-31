@@ -1,4 +1,5 @@
-﻿@model List<HerbsStore.Libraries.HS.Services.ProductServices.ProductCrudVm>
+﻿@using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage
+@model HerbsStore.Libraries.HS.Services.ProductServices.ProductCrudVm
 @{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,15 +9,16 @@
 <div class="banner">
 
     <div class="container">
-        <div class="w3l_banner_nav_right_banner3">
-            <h3>Best Deals For New Products<span class="blink_me"></span></h3>
-        </div>
+        
 
         <div class="w3ls_w3l_banner_nav_right_grid">
+            <partial name="_productsFilterPartial" />
+
             <h3>Products</h3>
             <div class="w3ls_w3l_banner_nav_right_grid1">
-               
-                @foreach(var item in Model) { 
+
+                @foreach (var item in Model.List)
+                {
                     <div class="col-md-4 w3ls_w3l_banner_left" style="margin-bottom: 20px">
                         <div class="hover14 column">
                             <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
@@ -27,16 +29,16 @@
                                     <figure>
                                         <div class="snipcart-item block">
                                             <div class="snipcart-thumb">
-                                                <a href="single.html"><img src="@item.ImageUrl" alt=" " class="img-responsive" /></a>
-                                                <p>@item.ProductName (@_dropdown.ResolveDropdown(item.ProductType,_dropdown.ProductsTypes()) ) </p>
+                                                <a asp-controller="Products" asp-action="Detail" asp-route-id="@item.Id"><img src="@item.ImageUrl" alt=" " class="img-responsive" /></a>
+                                                <p>@item.ProductName (@_dropdown.ResolveDropdown(item.ProductType, _dropdown.ProductsTypes()) ) </p>
                                                 <h4>TL @item.Price <span>TL @item.OldPrice</span></h4>
                                             </div>
                                             <div class="snipcart-details">
-                                                <form asp-controller="Cart"  asp-action="AddToCart" method="post">
-                                                    
-                                                        <input type="hidden"  name="id" value="@item.Id" />
-                                                        <input type="submit" name="submit" value="Add to cart" class="button" />
-                                                   
+                                                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <input type="submit" name="submit" value="Add to cart" class="button" />
+
                                                 </form>
                                             </div>
                                         </div>

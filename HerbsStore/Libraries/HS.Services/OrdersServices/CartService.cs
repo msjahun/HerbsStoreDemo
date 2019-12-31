@@ -15,16 +15,22 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
         private readonly IRepository<Core.Domain.Orders.CartProducts> _cartProducts;
         private readonly IPermissionService _permissionService;
         private readonly IRepository<Product> _productRepo;
+        private readonly IRepository<Order> _orderRepo;
+        private readonly IRepository<OrderProducts> _orderProductsRepo;
 
         public CartService(IRepository<Cart> cartRepo,
             IRepository<Core.Domain.Orders.CartProducts> cartProductRepo,
             IPermissionService permissionService,
-            IRepository<Product> productRepo)
+            IRepository<Product> productRepo,
+            IRepository<Order> orderRepo,
+            IRepository<OrderProducts> orderProductsRepo)
         {
             _cartRepo = cartRepo;
             _cartProducts = cartProductRepo;
             _permissionService = permissionService;
             _productRepo = productRepo;
+            _orderRepo = orderRepo;
+            _orderProductsRepo = orderProductsRepo;
         }
 
         private Cart GetCurrentCart()
@@ -92,7 +98,8 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
                 var cartProduct = new Core.Domain.Orders.CartProducts
               {
                   CartId = cartId,
-                  ProductId = productId
+                  ProductId = productId,
+                  Quantity = 1
               };
 
               _cartProducts.Insert(cartProduct);
@@ -155,12 +162,61 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
             return true;
         }
 
+    
 
-        public bool CompleteCartOrder()
-        {  
+
+        public bool CompleteCartOrder(CartCrudVm vm)
+        {
+            var user = _permissionService.GetCurrentUser();
+            if (user == null) return false;
+
+            var cart = GetCurrentCart();
+            if (cart == null) return false;
+
             //get current user, then get his cart
             //transfer from the current cart to order entity
-            throw new NotImplementedException();
+            var order = new Order
+            {
+                UserId = user.Id,
+                Address = user.ParmanentAddress,
+                CreatedOn = DateTime.Now,
+                OrderStatus = false,
+                PaymentType = ResolvePaymentType(vm.PaymentType),
+                NameOnCard = vm.NameOnCard,
+                ExpiryDate = vm.ExpiryDate,
+                Cvv = vm.Cvv.ToString(),
+                TotalAmount = GetTotalCartPrice(cart.Id)
+
+
+            };
+
+        var orderId = _orderRepo.Insert(order);
+            //save the cart products in the order products
+            var cartProducts = (from cartP in _cartProducts.List()
+                where cartP.CartId == cart.Id
+                select new OrderProducts
+                {
+                    ProductId = cartP.ProductId,
+                    OrderId = orderId,
+                    Quantity = cartP.Quantity
+                }).ToList();
+
+            foreach (var orderProduct in cartProducts)
+            {
+                _orderProductsRepo.Insert(orderProduct);
+            }
+
+
+           //delete Cart products, then delete Cart
+           var cartProductsToDelete = _cartProducts.List().Where(c => c.Id == cart.Id).ToList();
+           foreach (var item in cartProductsToDelete)
+           {
+               _cartProducts.Delete(item);
+           }
+
+           _cartRepo.Delete(cart);
+
+           return true;
         }
         public CartCrudVm GetCart()
         { //get a list of cart with all the items in the cart
@@ -181,6 +237,12 @@ namespace HerbsStore.Libraries.HS.Services.OrdersServices
             return model;
         }
 
+        private bool ResolvePaymentType(string paymentType)
+        {
+            if (string.Equals(paymentType, "YES"))
+                return true;
+            return false;
+        }
         private double GetTotalCartPrice(long existingCartId)
         {
          

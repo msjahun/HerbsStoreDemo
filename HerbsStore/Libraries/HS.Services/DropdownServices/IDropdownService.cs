@@ -7,5 +7,6 @@ namespace HerbsStore.Libraries.HS.Services.DropdownServices
     {
         List<SelectListItem> ProductsTypes();
         string ResolveDropdown(int id, List<SelectListItem> dropdownList);
+        List<SelectListItem> GetDisease();
     }
 }

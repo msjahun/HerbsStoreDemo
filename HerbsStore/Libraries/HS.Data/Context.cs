@@ -1,4 +1,5 @@
-﻿using HerbsStore.Libraries.HS.Core.Domain.Feedback;
+﻿using HerbsStore.Libraries.HS.Core.Domain.Diseases;
+using HerbsStore.Libraries.HS.Core.Domain.Feedback;
 using HerbsStore.Libraries.HS.Core.Domain.Hospitals;
 using HerbsStore.Libraries.HS.Core.Domain.Orders;
 using HerbsStore.Libraries.HS.Core.Domain.Products;
@@ -22,6 +23,7 @@ namespace HerbsStore.Libraries.HS.Data
         public virtual DbSet<Product> Products{ get; set; }
         public virtual DbSet<Cart> Carts{ get; set; }
         public virtual DbSet<Order> Orders{ get; set; }
+        public virtual DbSet<Disease> Diseases { get; set; }
 
 
 

@@ -1,4 +1,4 @@
-﻿
+﻿@model HerbsStore.Libraries.HS.Services.HospitalServices.HospitalCrudVm
 @{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,161 +6,91 @@
 
 <!-- banner -->
 
-    <div class="container">
-     
+<div class="container">
 
-        <div class="w3ls_w3l_banner_nav_right_grid">
-            <h3>List of Hospitals</h3>
-            <div class="w3ls_w3l_banner_nav_right_grid1">
-                <h6>food</h6>
-                <div class="col-md-3 w3ls_w3l_banner_left">
-                    <div class="hover14 column">
-                        <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
-                            <div class="agile_top_brand_left_grid_pos">
-                                <img src="~/images/offer.png" alt=" " class="img-responsive" />
-                            </div>
-                            <div class="agile_top_brand_left_grid1">
-                                <figure>
-                                    <div class="snipcart-item block">
-                                        <div class="snipcart-thumb">
-                                            <a href="single.html"><img src="~/images/5.png" alt=" " class="img-responsive" /></a>
-                                            <p>knorr instant soup (100 gm)</p>
-                                            <h4>$3.00 <span>$5.00</span></h4>
-                                        </div>
-                                        <div class="snipcart-details">
-                                            <form action="#" method="post">
-                                                <fieldset>
-                                                    <input type="hidden" name="cmd" value="_cart" />
-                                                    <input type="hidden" name="add" value="1" />
-                                                    <input type="hidden" name="business" value=" " />
-                                                    <input type="hidden" name="item_name" value="knorr instant soup" />
-                                                    <input type="hidden" name="amount" value="3.00" />
-                                                    <input type="hidden" name="discount_amount" value="1.00" />
-                                                    <input type="hidden" name="currency_code" value="USD" />
-                                                    <input type="hidden" name="return" value=" " />
-                                                    <input type="hidden" name="cancel_return" value=" " />
-                                                    <input type="submit" name="submit" value="Add to cart" class="button" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
+
+    <div class="w3ls_w3l_banner_nav_right_grid">
+
+        <br />
+        <br />
+        <h4 class="mb-4 text-dark text-capitalize">Search Hospitals</h4>
+        <br />
+        <div class="container  " style="background-color: aliceblue">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+
+                    <form method="get" asp-controller="Hospitals" asp-action="List">
+                        <div class="form-group px-2 py-2">
+                            <div class="row">
+
+                                <div class="col-1 col-md-4">
+                                    <div>
+
+                                        <input type="text" placeholder="Type a hospital name " class="form-control" asp-for="HospitalName" value="">
                                     </div>
-                                </figure>
+                                </div>
+
+
+                                <div class="col-md-4 mb-4">
+
+                                    <select class="form-control" data-toggle="select" data-live-search="true" asp-for="DiseaseId" asp-items="_dropdown.GetDisease()">
+                                        <option value="0">All Disease</option>
+
+                                    </select>
+                                </div>
+
+                             
+                                <div class="col text-center">
+                                    <button type="submit" class="btn btn-primary btn-bg pull-right">
+                                        <span class="btn-inner--icon">
+                                            <i class="fa fa-search"></i>
+                                        </span> Search Hospitals
+                                    </button>
+                                </div>
+
+
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <div class="col-md-3 w3ls_w3l_banner_left">
-                    <div class="hover14 column">
-                        <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
-                            <div class="agile_top_brand_left_grid_pos">
-                                <img src="~/images/offer.png" alt=" " class="img-responsive" />
-                            </div>
-                            <div class="agile_top_brand_left_grid1">
-                                <figure>
-                                    <div class="snipcart-item block">
-                                        <div class="snipcart-thumb">
-                                            <a href="single.html"><img src="~/images/6.png" alt=" " class="img-responsive" /></a>
-                                            <p>chings noodles (75 gm)</p>
-                                            <h4>$5.00 <span>$8.00</span></h4>
-                                        </div>
-                                        <div class="snipcart-details">
-                                            <form action="#" method="post">
-                                                <fieldset>
-                                                    <input type="hidden" name="cmd" value="_cart" />
-                                                    <input type="hidden" name="add" value="1" />
-                                                    <input type="hidden" name="business" value=" " />
-                                                    <input type="hidden" name="item_name" value="chings noodles" />
-                                                    <input type="hidden" name="amount" value="5.00" />
-                                                    <input type="hidden" name="discount_amount" value="1.00" />
-                                                    <input type="hidden" name="currency_code" value="USD" />
-                                                    <input type="hidden" name="return" value=" " />
-                                                    <input type="hidden" name="cancel_return" value=" " />
-                                                    <input type="submit" name="submit" value="Add to cart" class="button" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 w3ls_w3l_banner_left">
-                    <div class="hover14 column">
-                        <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
-                            <div class="agile_top_brand_left_grid_pos">
-                                <img src="~/images/offer.png" alt=" " class="img-responsive" />
-                            </div>
-                            <div class="agile_top_brand_left_grid1">
-                                <figure>
-                                    <div class="snipcart-item block">
-                                        <div class="snipcart-thumb">
-                                            <a href="single.html"><img src="~/images/7.png" alt=" " class="img-responsive" /></a>
-                                            <p>lahsun sev (150 gm)</p>
-                                            <h4>$3.00 <span>$5.00</span></h4>
-                                        </div>
-                                        <div class="snipcart-details">
-                                            <form action="#" method="post">
-                                                <fieldset>
-                                                    <input type="hidden" name="cmd" value="_cart" />
-                                                    <input type="hidden" name="add" value="1" />
-                                                    <input type="hidden" name="business" value=" " />
-                                                    <input type="hidden" name="item_name" value="lahsun sev" />
-                                                    <input type="hidden" name="amount" value="3.00" />
-                                                    <input type="hidden" name="discount_amount" value="1.00" />
-                                                    <input type="hidden" name="currency_code" value="USD" />
-                                                    <input type="hidden" name="return" value=" " />
-                                                    <input type="hidden" name="cancel_return" value=" " />
-                                                    <input type="submit" name="submit" value="Add to cart" class="button" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 w3ls_w3l_banner_left">
-                    <div class="hover14 column">
-                        <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
-                            <div class="agile_top_brand_left_grid_pos">
-                                <img src="~/images/offer.png" alt=" " class="img-responsive" />
-                            </div>
-                            <div class="agile_top_brand_left_grid1">
-                                <figure>
-                                    <div class="snipcart-item block">
-                                        <div class="snipcart-thumb">
-                                            <a href="single.html"><img src="~/images/8.png" alt=" " class="img-responsive" /></a>
-                                            <p>premium bake rusk (300 gm)</p>
-                                            <h4>$5.00 <span>$7.00</span></h4>
-                                        </div>
-                                        <div class="snipcart-details">
-                                            <form action="#" method="post">
-                                                <fieldset>
-                                                    <input type="hidden" name="cmd" value="_cart" />
-                                                    <input type="hidden" name="add" value="1" />
-                                                    <input type="hidden" name="business" value=" " />
-                                                    <input type="hidden" name="item_name" value="premium bake rusk" />
-                                                    <input type="hidden" name="amount" value="5.00" />
-                                                    <input type="hidden" name="discount_amount" value="1.00" />
-                                                    <input type="hidden" name="currency_code" value="USD" />
-                                                    <input type="hidden" name="return" value=" " />
-                                                    <input type="hidden" name="cancel_return" value=" " />
-                                                    <input type="submit" name="submit" value="Add to cart" class="button" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
             </div>
         </div>
+        <br />
+        <br />
+        <h4>List of Hospitals</h4>
+        <div class="w3ls_w3l_banner_nav_right_grid1">
+            @foreach (var item in Model.List)
+            {
+
+                <div class="col-md-4 w3ls_w3l_banner_left">
+                    <div class="hover14 column">
+                        <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
+
+                            <div class="agile_top_brand_left_grid1">
+                                <figure>
+                                    <div class="snipcart-item block text-center">
+                                        <div class="snipcart-thumb">
+                                            <img src="@item.ImageUrl" alt=" " class="img-responsive" />
+
+                                            <br />
+                                            <h4>@item.HospitalName</h4>
+                                            <p>@item.HospitalAddress</p>
+                                            <p>@item.Description</p>
+                                            <p>@item.DiseasesFlat</p>
+
+                                        </div>
+
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="clearfix"> </div>
+        </div>
     </div>
-    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
 
 <!-- //banner -->

@@ -36,11 +36,11 @@
                             <a asp-controller="Administration" asp-action="ProductEdit" asp-route-Id="@product.Id">
                                 <img src="@product.ImageUrl" height="30" width="30" />
                                 @product.ProductName
-                                Qty: 5
+                                Qty: @product.Quantity
                             </a>
                         </li>
                     }
-
+                    <li>Order Total:TL @item.TotalAmount</li>
                 </td>
                 
 
@@ -58,7 +58,7 @@
                 }
             <td>
                 
-                @if (item.OrderStatus)
+                @if (!item.OrderStatus)
                 {
                     <a asp-controller="Administration" asp-action="OrderConfirmToggle" asp-route-id="@item.Id" class="btn btn-primary">Confirm</a>
                 }
